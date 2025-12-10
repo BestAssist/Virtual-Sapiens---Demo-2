@@ -47,9 +47,17 @@ A FastAPI backend with a TypeScript client for text summarization.
    ```
 
 2. Activate the virtual environment:
-   - **Windows:**
-     ```bash
-     venv\Scripts\activate
+   - **Windows (PowerShell):**
+     ```powershell
+     venv\Scripts\Activate.ps1
+     ```
+     If you get an execution policy error, run:
+     ```powershell
+     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+     ```
+   - **Windows (Command Prompt):**
+     ```cmd
+     venv\Scripts\activate.bat
      ```
    - **macOS/Linux:**
      ```bash
@@ -100,26 +108,64 @@ Once the server is running, you can access:
 
 ### Backend Tests
 
+**Important:** Make sure your virtual environment is activated before running tests.
+
 Run the pytest test suite:
 
+**Bash/Linux/macOS:**
 ```bash
 pytest test_main.py -v
 ```
 
+**PowerShell (Windows):**
+```powershell
+python -m pytest test_main.py -v
+```
+
 For more detailed output:
 
+**Bash/Linux/macOS:**
 ```bash
 pytest test_main.py -v --tb=short
 ```
 
+**PowerShell (Windows):**
+```powershell
+python -m pytest test_main.py -v --tb=short
+```
+
+**Note:** If you get a "pytest is not recognized" error in PowerShell, either:
+- Activate your virtual environment first: `venv\Scripts\Activate.ps1`
+- Or use: `python -m pytest` instead of just `pytest`
+
 ### Manual API Testing
 
-You can test the endpoint using curl:
+You can test the endpoint using curl (bash/Git Bash):
 
 ```bash
 curl -X POST "http://localhost:8000/summaries" \
   -H "Content-Type: application/json" \
   -d '{"text": "This is a sample text with more than ten words to test the summary endpoint functionality"}'
+```
+
+**PowerShell:**
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/summaries" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"text": "This is a sample text with more than ten words to test the summary endpoint functionality"}'
+```
+
+**Or using Invoke-WebRequest:**
+```powershell
+$body = @{
+    text = "This is a sample text with more than ten words to test the summary endpoint functionality"
+} | ConvertTo-Json
+
+Invoke-WebRequest -Uri "http://localhost:8000/summaries" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body $body | Select-Object -ExpandProperty Content
 ```
 
 Expected response:
