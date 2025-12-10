@@ -13,6 +13,15 @@ class LoggingMiddleware(BaseHTTPMiddleware):
     """
     Custom middleware that logs request path, execution time, and status code.
     """
+
+    def __init__(self, app: ASGIApp):
+        """
+        Initialize the logging middleware.
+
+        Args:
+            app: The ASGI application to wrap
+        """
+        super().__init__(app)
     
     async def dispatch(self, request: Request, call_next):
         # Record start time
@@ -25,7 +34,7 @@ class LoggingMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         
         # Calculate execution time
-        execution_time = time.time() - start_time
+        execution_time = (time.time() - start_time) * 1000  # in milliseconds
         
         # Get status code
         status_code = response.status_code
