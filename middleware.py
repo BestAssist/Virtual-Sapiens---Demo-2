@@ -3,6 +3,8 @@ from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 import logging
+from starlette.types import ASGIApp
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
