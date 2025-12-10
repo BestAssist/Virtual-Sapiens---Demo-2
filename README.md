@@ -1,6 +1,6 @@
 # Virtual Sapiens Demo Project
 
-A FastAPI backend with a TypeScript client for text summarization.
+A professional FastAPI application with a TypeScript client for extracting the first 10 words from text input with timestamp tracking.
 
 ## Project Structure
 
